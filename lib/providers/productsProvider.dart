@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/DummyProducts.dart';
 import 'package:shop_app/models/product.dart';
+import 'package:uuid/uuid.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = dummyProducts;
@@ -24,10 +25,29 @@ class Products with ChangeNotifier {
   }
 
   void addProduct(Product value) {
-    // _items.add(value);
+    final newProduct = Product(
+        id: Uuid().v4(),
+        title: value.title,
+        description: value.description,
+        imageUrl: value.imageUrl,
+        price: value.price);
+    _items.add(newProduct);
     notifyListeners();
   }
 
+  void removeProduct(String id) {
+    _items.removeWhere((element) => element.id == id);
+    notifyListeners();
+  }
+
+  void editProduct(Product product) {
+    final productIndex =
+        _items.indexWhere((element) => element.id == product.id);
+    if (productIndex >= 0) {
+      _items[productIndex] = product;
+      notifyListeners();
+    }
+  }
   // void showFavorites() {
   //   showFavoritesOnly = true;
   //   notifyListeners();

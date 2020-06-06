@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/providers/Cart.dart';
+import 'package:uuid/uuid.dart';
 
 class OrderItem {
   final String id;
@@ -24,7 +25,7 @@ class Orders with ChangeNotifier {
             amount: total,
             dateTime: DateTime.now(),
             products: cartProducts,
-            id: DateTime.now().toString()));
+            id: Uuid().v4()));
     notifyListeners();
   }
 }
